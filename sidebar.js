@@ -48,9 +48,16 @@ async function renderClippedPages() {
         <div class="clip-title">${page.title}</div>
         <a href="${page.url}" class="clip-url" target="_blank">${page.url}</a>
         <div class="clip-date">${formatDate(page.timestamp)}</div>
+        ${page.wordCount ? `
+        <div class="clip-metadata">
+          <div class="metadata-item">Words: ${page.wordCount}</div>
+          <div class="metadata-item">Reading time: ${page.readingTime} min</div>
+        </div>
+        ` : ''}
         <div class="clip-content">${page.content}</div>
         <button class="delete-btn" data-id="${page.id}">×</button>
       `;
+
       
       // Add the item to the list
       listElement.appendChild(clipItem);
