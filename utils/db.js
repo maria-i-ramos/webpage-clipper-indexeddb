@@ -4,7 +4,7 @@
  */
 
 const DB_NAME = 'WebpageClipperDB';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 const STORE_NAME = 'clippedPages';
 
 // Database connection
@@ -17,6 +17,7 @@ async function initDB() {
   // Handle database upgrade (called when DB is created or version changes)
   request.onupgradeneeded = (event) => {
     const db = event.target.result;
+    const oldVer = event.oldVer;
     
     // Create the object store (table) if it doesn't exist
     if (!db.objectStoreNames.contains(STORE_NAME)) {
@@ -28,6 +29,9 @@ async function initDB() {
       store.createIndex('timestamp', 'timestamp', { unique: false });
       
       console.log('Database schema created');
+    }
+    if (oldVer < 2) {
+      console.log('schema v 2: added wordCount and readingTime');
     }
   };
   
